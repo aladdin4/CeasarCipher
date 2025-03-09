@@ -59,7 +59,7 @@ namespace CeasarCipher
             if (manualFromFile == 1)  //manual path
             {
                 Console.WriteLine("Enter the text to decrypt: ");
-                string text = Console.ReadLine();
+                string text = Console.ReadLine();       //TBD
                 if (string.IsNullOrEmpty(text))
                 {
                     WriteLineColored("Invalid input. Please enter a valid text.", ConsoleColor.Red);

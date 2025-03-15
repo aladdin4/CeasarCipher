@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using MathNet.Numerics.Statistics;
-using static System.Net.Mime.MediaTypeNames;
+﻿using MathNet.Numerics.Statistics;
 namespace CeasarCipher
 {
     internal class Program
@@ -24,6 +20,7 @@ namespace CeasarCipher
                 Console.WriteLine("To Decrypt A Text, Please Press 1");
                 Console.WriteLine("To Encrypt A Text, Please Press 2");
                 int decryptEncrypt = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
                 if (decryptEncrypt == 1)  //decrypt path
                 {
                     DecryptPath();
@@ -37,12 +34,11 @@ namespace CeasarCipher
                     WriteLineColored("Invalid Input", ConsoleColor.Red);
                     Console.WriteLine("Press Enter to continue...");
                     Console.ReadLine();
+                    Console.WriteLine();
+
                 }
             }
         }
-
-
-
 
         private static void WriteLineColored(string text, ConsoleColor color)
         {
@@ -56,10 +52,12 @@ namespace CeasarCipher
             Console.WriteLine("To Enter The Text Manually, Please Press 1");
             Console.WriteLine("To Enter The Text From a File, Please Press 2");
             int manualFromFile = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine();
+
             if (manualFromFile == 1)  //manual path
             {
                 Console.WriteLine("Enter the text to decrypt: ");
-                string text = Console.ReadLine();       //TBD
+                string text = Console.ReadLine();       
                 if (string.IsNullOrEmpty(text))
                 {
                     WriteLineColored("Invalid input. Please enter a valid text.", ConsoleColor.Red);
@@ -80,13 +78,15 @@ namespace CeasarCipher
                     return;
                 }
 
+                Console.WriteLine("Enter the number of the file you want to select:");
                 for (int i = 0; i < files.Length; i++)
                 {
                     Console.WriteLine($"{i + 1}. {Path.GetFileName(files[i])}");
                 }
-
-                Console.WriteLine("Enter the number of the file you want to select:");
+                
                 int fileChoice = Convert.ToInt32(Console.ReadLine()) - 1;
+                Console.WriteLine();
+
                 if (fileChoice >= 0 && fileChoice < files.Length)
                 {
                     string filePath = files[fileChoice];
@@ -96,6 +96,8 @@ namespace CeasarCipher
                         WriteLineColored("Invalid input. Please enter a valid text.", ConsoleColor.Red);
                         Console.WriteLine("Press Enter to continue...");
                         Console.ReadLine();
+                        Console.WriteLine();
+
                     }
                     else
                     {
@@ -107,6 +109,8 @@ namespace CeasarCipher
                     WriteLineColored("Invalid choice. Please try again.", ConsoleColor.Red);
                     Console.WriteLine("Press Enter to continue...");
                     Console.ReadLine();
+                    Console.WriteLine();
+
                 }
             }
             else
@@ -114,19 +118,17 @@ namespace CeasarCipher
                 WriteLineColored("Invalid choice", ConsoleColor.Red);
                 Console.WriteLine("Press Enter to continue...");
                 Console.ReadLine();
+                Console.WriteLine();
+
             }
         }
-
-
-
-
 
         private static void DecryptText(string encryptedText)
         {
             // Convert frequencies to arrays
             var englishFreqArray = englishFrequencies.Values.ToArray();
 
-            //we need to make a list of each shift, where 0 is the original one, and so on.
+            //To make a list of each shift, from 1-26.
             var shifts = Enumerable.Range(1, 26).ToList();
             var correlationValues = new double[26];
             foreach (int shift in shifts)
@@ -135,6 +137,7 @@ namespace CeasarCipher
                 var frequencies = CalculateLetterFrequencies(text);
                 correlationValues[shift - 1] = Correlation.Pearson(englishFreqArray, frequencies.Values.ToArray());
             }
+
             //get the largest correlation value
             var maxCorrelation = correlationValues.Max();
 
@@ -148,6 +151,8 @@ namespace CeasarCipher
             WriteLineColored($"{Decrypt(encryptedText, maxCorrelationIndex)}", ConsoleColor.Green);
             Console.WriteLine("Press Enter to continue...");
             Console.ReadLine();
+            Console.WriteLine();
+
         }
         private static string Decrypt(string text, int key)
         {
@@ -232,7 +237,9 @@ namespace CeasarCipher
                     encryptedTextFrequencies[c] = 0;
                 }
             }
-            var sortedEncryptedTextFrequencies = encryptedTextFrequencies.OrderBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            var sortedEncryptedTextFrequencies = encryptedTextFrequencies
+                .OrderBy(kvp => kvp.Key)
+                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             return sortedEncryptedTextFrequencies;
         }
 
@@ -242,14 +249,21 @@ namespace CeasarCipher
             Console.WriteLine("To Enter The Text Manually, Please Press 1");
             Console.WriteLine("To Enter The Text From a File, Please Press 2");
             int manualFromFile = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine();
+
             if (manualFromFile == 1)  //manual path
             {
                 Console.WriteLine("Enter the text to encrypt: ");
                 string text = Console.ReadLine();
-                Console.WriteLine("Enter the key: ");
+                Console.WriteLine();
+                WriteLineColored("Enter the key: ", ConsoleColor.Yellow);
                 int key = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
                 string encryptedText = Encrypt(text, key);
-                Console.WriteLine("Encrypted text: " + encryptedText);
+                Console.Write("Encrypted text: ");
+                WriteLineColored($"{encryptedText}", ConsoleColor.Green);
+                Console.ReadLine();
+                Console.WriteLine();
             }
             else if (manualFromFile == 2)  //from a file
             {
@@ -260,23 +274,32 @@ namespace CeasarCipher
                     return;
                 }
 
+                Console.WriteLine("Enter the number of the file you want to select:");
                 for (int i = 0; i < files.Length; i++)
                 {
                     Console.WriteLine($"{i + 1}. {Path.GetFileName(files[i])}");
                 }
-
-                Console.WriteLine("Enter the number of the file you want to select:");
+                
                 int fileChoice = Convert.ToInt32(Console.ReadLine()) - 1;
+                Console.WriteLine();
+
                 if (fileChoice >= 0 && fileChoice < files.Length)
                 {
                     string filePath = files[fileChoice];
                     string text = File.ReadAllText(filePath);
-                    Console.WriteLine("Enter the key: ");
+                    WriteLineColored("Enter the key: ", ConsoleColor.Yellow);
                     int key = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine();
+
                     string encryptedText = Encrypt(text, key);
-                    Console.WriteLine("Encrypted text: " + encryptedText);
+
+                    //display the results
+                    Console.Write("The Encrypted text: ");
+                    WriteLineColored($"{encryptedText}", ConsoleColor.Green);
                     Console.WriteLine("Press Enter to continue...");
                     Console.ReadLine();
+                    Console.WriteLine();
+
                 }
                 else
                 {
@@ -307,5 +330,6 @@ namespace CeasarCipher
             }
             return encryptedText;
         }
+
     }
 }

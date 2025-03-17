@@ -6,8 +6,13 @@
         xmlns:local="clr-namespace:CeasarCipherWPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" >
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -21,40 +26,88 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Title -->
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Caesar Cipher Application" 
-                   FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="10"/>
 
         <!-- Personal Info -->
-        <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Margin="10">
-            <TextBlock Text="Institute" FontSize="14" FontWeight="SemiBold" />
-            <TextBlock Text="" FontSize="14" FontWeight="SemiBold" />
-            <TextBlock Text="Ahmed" FontSize="14" FontWeight="SemiBold" />
-            <TextBlock Text="ID: 123456" FontSize="14" FontWeight="SemiBold" />
+        <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10">
+            <TextBlock Text="Institute Of Graduate Study - IT Department" FontSize="14" FontWeight="SemiBold" />
+            <TextBlock Text="Ahmed Aladdin Arafa" FontSize="14" FontWeight="SemiBold" />
+            <TextBlock Text="ID: 1404-5-034" FontSize="14" FontWeight="SemiBold" />
         </StackPanel>
 
-        <!-- Functionality Title -->
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Please Select The Required Functionality:" 
-                   FontSize="14" FontWeight="Medium" HorizontalAlignment="Center" Margin="20"/>
+        <!-- Title -->
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Caesar Cipher Application" 
+               FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="10"/>
 
+        <!-- Reset Button -->
+        <Button Grid.Row="1" Grid.Column="0" Content="Reset" Width="80" Height="30"
+        HorizontalAlignment="Right" Margin="10" Click="ResetButton_Click" Name="ResetButton" Visibility="Collapsed" />
+
+        <Grid Grid.Row="2" Grid.Column="0" Margin="20,0,20,0" x:Name="KeyGrid" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- TextBlock -->
+            <TextBlock x:Name="KeyText" Grid.Column="0" Text="Please Enter The Encryption Key:"
+               FontSize="14" FontWeight="Medium" VerticalAlignment="Center" />
+
+            <!-- TextBox -->
+            <TextBox Grid.Column="1" Height="22" TextWrapping="Wrap"   Width="60"
+             AcceptsReturn="True" VerticalScrollBarVisibility="Auto"  Margin="10,0,10,0"
+             HorizontalAlignment="Left" Name="KeyTextBox" Text="3" />
+        </Grid>
+
+       
+
+
+        <TextBlock x:Name="FunctionalityText"  Grid.Row="3" Grid.Column="0" Text="Please Select The Required Functionality:" 
+                   FontSize="14" FontWeight="Medium" HorizontalAlignment="Left" Margin="20"/>
+
+        
         <!-- Dropdown -->
-        <ComboBox Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" Width="200" 
+        <ComboBox Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" Width="200" 
           Height="30" VerticalContentAlignment="Center" Name="FunctionalitySelector" Margin="10" >
             <ComboBoxItem Content="Select an option" IsEnabled="False" />
             <ComboBoxItem Content="Encrypt Text" IsSelected="True" />
             <ComboBoxItem Content="Decrypt Text" />
         </ComboBox>
         
-        <!--<ComboBox Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" Width="200" 
-          Height="30" VerticalContentAlignment="Center" Name="OptionsDropdown" 
-          Visibility="Collapsed" Margin="10" />-->
+        <TextBox Grid.Row="5" Grid.Column="0"  Height="100" TextWrapping="Wrap" 
+         AcceptsReturn="True" VerticalScrollBarVisibility="Auto" 
+         HorizontalAlignment="Stretch" Margin="10,-10,10,10"  Name="ManualTextInput" Visibility="Collapsed"  />
 
-        <Button Grid.Row="5" Grid.Column="0" Content="Confirm" Width="100" Height="30" 
+        <StackPanel Grid.Row="6" Grid.Column="0" Width="100" Height="30" HorizontalAlignment="Center" Margin="10"  />
+
+        <!--<TextBlock x:Name="ResultText"  Grid.Row="6" Grid.Column="0" Text="Result:"
+    FontSize="14" FontWeight="Medium" HorizontalAlignment="Left" Margin="20" TextWrapping="Wrap" Visibility="Collapsed"  />-->
+
+
+            <TextBox x:Name="ResultTextBox" Grid.Row="6" Grid.Column="0" Text="Result:"
+         FontSize="14" FontWeight="Medium" HorizontalAlignment="Left" Margin="20" 
+         TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent" 
+         Visibility="Collapsed" />
+
+            <TextBox x:Name="ResultKeyTextBox" Grid.Row="7" Grid.Column="0" Text="Key:"
+FontSize="14" FontWeight="Medium" HorizontalAlignment="Left" Margin="20" 
+TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent" 
+Visibility="Collapsed" />
+            <Button Grid.Row="8" Grid.Column="0" Content="Confirm" Width="100" Height="30" 
                 HorizontalAlignment="Center" Margin="10" Click="Confirm_Click" Name="ConfirmButton"/>
 
-        <ProgressBar Grid.Row="7" Grid.Column="0" Height="20" Width="300" 
-             IsIndeterminate="True" Visibility="Collapsed" 
+        <Button Grid.Row="8" Grid.Column="0" Content="" Width="100" Height="30" 
+         HorizontalAlignment="Center" Margin="10" Click="ActionButton_Click" Name="ActionButton" Visibility="Collapsed"  />
+        
+       
+
+
+
+
+        <StackPanel Grid.Row="9" Grid.Column="0" Width="100" Height="30" HorizontalAlignment="Center" Margin="10"  />
+
+        <ProgressBar Grid.Row="10" Grid.Column="0" Height="20" Width="300" IsIndeterminate="True" Visibility="Collapsed" 
              Name="LoadingBar" Margin="10" />
 
     </Grid>
+    </ScrollViewer>
 </Window>
